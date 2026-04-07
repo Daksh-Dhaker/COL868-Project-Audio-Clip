@@ -72,23 +72,48 @@ python reproduce/run_cv.py \
 
 ## Run Additional Paper-Claim Cases
 
+The claims runner is now selection-based: you choose datasets and model variants.
+
 Run full-checkpoint CV for both datasets:
 
 ```bash
 python reproduce/run_paper_claims.py \
+  --datasets esc50 us8k \
+  --models full \
   --esc50-root /path/to/ESC-50-master \
   --us8k-root /path/to/UrbanSound8K \
-  --full-checkpoint assets/AudioCLIP-Full-Training.pt \
-  --skip-partial
+  --full-checkpoint assets/AudioCLIP-Full-Training.pt
 ```
 
 Run full + partial checkpoint CV for both datasets:
 
 ```bash
 python reproduce/run_paper_claims.py \
+  --datasets esc50 us8k \
+  --models full partial \
   --esc50-root /path/to/ESC-50-master \
   --us8k-root /path/to/UrbanSound8K \
   --full-checkpoint assets/AudioCLIP-Full-Training.pt \
+  --partial-checkpoint assets/AudioCLIP-Partial-Training.pt
+```
+
+Run a single dataset and single model variant (example: ESC-50 + full):
+
+```bash
+python reproduce/run_paper_claims.py \
+  --datasets esc50 \
+  --models full \
+  --esc50-root /path/to/ESC-50-master \
+  --full-checkpoint assets/AudioCLIP-Full-Training.pt
+```
+
+Run only UrbanSound8K with partial checkpoint:
+
+```bash
+python reproduce/run_paper_claims.py \
+  --datasets us8k \
+  --models partial \
+  --us8k-root /path/to/UrbanSound8K \
   --partial-checkpoint assets/AudioCLIP-Partial-Training.pt
 ```
 
