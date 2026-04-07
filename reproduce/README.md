@@ -21,7 +21,20 @@ python -m pip install -r reproduce/requirements-kaggle.txt
    ESC-50 root containing `audio/` and `meta/esc50.csv`
    UrbanSound8K root containing `audio/` and `metadata/UrbanSound8K.csv`
 
-  You can download datasets selectively with:
+  You can download datasets selectively with Python:
+
+```bash
+# Download only ESC-50
+python reproduce/download_datasets.py esc /path/to/datasets
+
+# Download only UrbanSound8K
+python reproduce/download_datasets.py urban /path/to/datasets
+
+# Download both datasets
+python reproduce/download_datasets.py all /path/to/datasets
+```
+
+  Shell version (equivalent):
 
 ```bash
 # Download only ESC-50
