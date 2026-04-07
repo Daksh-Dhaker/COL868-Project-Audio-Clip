@@ -1,0 +1,11 @@
+# Kaggle-compatible dependencies for AudioCLIP reproduction.
+# Intentionally avoids pinning torch/torchvision because Kaggle provides GPU-matched builds.
+librosa==0.10.2.post1
+numpy==1.26.4
+pandas==2.2.2
+pytorch-ignite==0.5.1
+scikit-learn==1.4.2
+scipy==1.11.4
+soundfile==0.12.1
+termcolor==2.4.0
+tqdm==4.66.5
