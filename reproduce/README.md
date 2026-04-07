@@ -1,103 +1,108 @@
-# AudioCLIP Reproduction on Kaggle (Input Dataset First)
+# AudioCLIP Reproduction
 
-This workflow assumes you upload the entire `AudioCLIP/` folder as a Kaggle Dataset input.
+This folder contains helper scripts to reproduce multiple AudioCLIP results from the paper.
 
-Design goals of this setup:
+## What Is Included
 
-1. Use model files directly from `AudioCLIP/assets` in input dataset.
-2. Use `/kaggle/working` only for downloaded datasets (and optional outputs).
-3. Disable Visdom and checkpoint saving by default.
-4. Reproduce printed validation accuracies with minimal setup.
+1. Single-fold reproduction for ESC-50 and UrbanSound8K.
+2. Full cross-validation (ESC-50: 5 folds, UrbanSound8K: 10 folds).
+3. Combined runners for multiple paper-claim cases (full and partial checkpoints).
 
-## Assumptions
+## Prerequisites
 
-- Code dataset path:
-  - `/kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP`
-- `AudioCLIP/assets` contains real files (not Git LFS pointers):
-  - `AudioCLIP-Full-Training.pt`
-  - `CLIP.pt`
-  - `ESRNXFBSP.pt`
-  - `bpe_simple_vocab_16e6.txt.gz`
-
-## 1) Install Dependencies
+1. Python environment with dependencies:
 
 ```bash
 python -m pip install --upgrade pip
-python -m pip install -r /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/requirements-kaggle.txt
+python -m pip install -r reproduce/requirements-kaggle.txt
 ```
 
-## 2) Download Datasets (ESC-50 and UrbanSound8K)
+2. Dataset roots available locally:
+   ESC-50 root containing `audio/` and `meta/esc50.csv`
+   UrbanSound8K root containing `audio/` and `metadata/UrbanSound8K.csv`
 
-```bash
-bash /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/download_datasets.sh /kaggle/working/datasets
-```
+3. Checkpoints and tokenizer files are available in `AudioCLIP/assets`.
+   The main scripts default to `assets/AudioCLIP-Full-Training.pt`.
 
-This creates:
-
-- ESC-50 root: `/kaggle/working/datasets/ESC-50-master`
-- UrbanSound8K root: `/kaggle/working/datasets/UrbanSound8K`
-
-## 3) Run Single Fold (uses assets checkpoint by default)
+## Run Single Fold
 
 ESC-50 fold 1:
 
 ```bash
-python /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/run_fold.py \
+python reproduce/run_fold.py \
   --dataset esc50 \
-  --dataset-root /kaggle/working/datasets/ESC-50-master \
-  --fold 1
+  --dataset-root /path/to/ESC-50-master \
+  --fold 1 \
+  --enable-checkpoint-saving \
+  --saved-models-path reproduce/outputs/esc50_saved_models
 ```
 
 UrbanSound8K fold 1:
 
 ```bash
-python /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/run_fold.py \
+python reproduce/run_fold.py \
   --dataset us8k \
-  --dataset-root /kaggle/working/datasets/UrbanSound8K \
-  --fold 1
+  --dataset-root /path/to/UrbanSound8K \
+  --fold 1 \
+  --enable-checkpoint-saving \
+  --saved-models-path reproduce/outputs/us8k_saved_models
 ```
 
-## 4) Run Full Cross-Validation
+## Run Full Cross-Validation
 
 ESC-50 (5 folds):
 
 ```bash
-python /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/run_cv.py \
+python reproduce/run_cv.py \
   --dataset esc50 \
-  --dataset-root /kaggle/working/datasets/ESC-50-master
+  --dataset-root /path/to/ESC-50-master \
+  --enable-checkpoint-saving \
+  --saved-models-path reproduce/outputs/esc50_cv_saved_models
 ```
 
 UrbanSound8K (10 folds):
 
 ```bash
-python /kaggle/input/datasets/dakshddhaker/code-5/AudioCLIP/reproduce/run_cv.py \
+python reproduce/run_cv.py \
   --dataset us8k \
-  --dataset-root /kaggle/working/datasets/UrbanSound8K
+  --dataset-root /path/to/UrbanSound8K \
+  --enable-checkpoint-saving \
+  --saved-models-path reproduce/outputs/us8k_cv_saved_models
 ```
 
-## 5) Optional Overrides
+## Run Additional Paper-Claim Cases
 
-Use custom checkpoint path:
+Run full-checkpoint CV for both datasets:
 
 ```bash
---checkpoint /some/path/AudioCLIP-Full-Training.pt
+python reproduce/run_paper_claims.py \
+  --esc50-root /path/to/ESC-50-master \
+  --us8k-root /path/to/UrbanSound8K \
+  --full-checkpoint assets/AudioCLIP-Full-Training.pt \
+  --skip-partial
 ```
 
-Enable checkpoint saving:
+Run full + partial checkpoint CV for both datasets:
 
 ```bash
---enable-checkpoint-saving --saved-models-path /kaggle/working/outputs/saved_models
+python reproduce/run_paper_claims.py \
+  --esc50-root /path/to/ESC-50-master \
+  --us8k-root /path/to/UrbanSound8K \
+  --full-checkpoint assets/AudioCLIP-Full-Training.pt \
+  --partial-checkpoint assets/AudioCLIP-Partial-Training.pt
 ```
 
-Enable visdom (off by default):
+Shell wrappers:
 
 ```bash
---enable-visdom
+bash reproduce/run_claims_full.sh /path/to/ESC-50-master /path/to/UrbanSound8K
+bash reproduce/run_claims_full_and_partial.sh /path/to/ESC-50-master /path/to/UrbanSound8K
 ```
 
-## 6) Notes
+## Notes
 
-- Ignite is still required because AudioCLIP trainer is built on Ignite.
-- Visdom is disabled by default.
-- Checkpoint saving is disabled by default.
-- Console logs still print `Val. Acc. Eval.` values needed for reproduction.
+1. Visdom is disabled by default in wrappers; enable it with `--enable-visdom`.
+2. Scripts print fold-level values and aggregated `Mean Val. Acc. Eval.` and `Std Val. Acc. Eval.`.
+3. Reference supervised values from paper:
+   ESC-50: 97.15%
+   UrbanSound8K: 90.07%
