@@ -21,6 +21,19 @@ python -m pip install -r reproduce/requirements-kaggle.txt
    ESC-50 root containing `audio/` and `meta/esc50.csv`
    UrbanSound8K root containing `audio/` and `metadata/UrbanSound8K.csv`
 
+  You can download datasets selectively with:
+
+```bash
+# Download only ESC-50
+bash reproduce/download_datasets.sh esc /path/to/datasets
+
+# Download only UrbanSound8K
+bash reproduce/download_datasets.sh urban /path/to/datasets
+
+# Download both datasets
+bash reproduce/download_datasets.sh all /path/to/datasets
+```
+
 3. Checkpoints and tokenizer files are available in `AudioCLIP/assets`.
    The main scripts default to `assets/AudioCLIP-Full-Training.pt`.
 
