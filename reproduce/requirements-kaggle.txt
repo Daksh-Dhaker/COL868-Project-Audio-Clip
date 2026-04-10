@@ -9,3 +9,4 @@ scipy==1.11.4
 soundfile==0.12.1
 termcolor==2.4.0
 tqdm==4.66.5
+ftfy==6.3.1
