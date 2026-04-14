@@ -2,6 +2,45 @@
 
 This folder contains helper scripts to reproduce multiple AudioCLIP results from the paper.
 
+## Table 4 Retrieval Reproduction (table4.py)
+
+Use `reproduce/table4.py` to compute Table 4 metrics (`P@1`, `R@1`, `mAP`) for one setting at a time.
+
+Required inputs:
+1. `--dataset` (`imagenet`, `audioset`, `esc50`, `us8k`)
+2. `--query-type` (`text`, `audio`, `image`)
+3. `--result-type` (`text`, `audio`, `image`)
+4. `--model-path` (full or partial AudioCLIP checkpoint)
+
+Example (ESC-50, text -> audio, full model):
+
+```text
+python reproduce/table4.py --dataset esc50 --query-type text --result-type audio --model-path assets/AudioCLIP-Full-Training.pt --dataset-root /path/to/ESC-50-master
+```
+
+Example (UrbanSound8K, text -> audio, partial model):
+
+```text
+python reproduce/table4.py --dataset us8k --query-type text --result-type audio --model-path assets/AudioCLIP-Partial-Training.pt --dataset-root /path/to/UrbanSound8K
+```
+
+For `imagenet` and `audioset`, pass `--dataset-root` pointing to a directory containing modality manifests:
+1. `audio.jsonl` (optional unless audio modality is used)
+2. `image.jsonl` (optional unless image modality is used)
+3. `text.jsonl` (optional; auto-generated from labels if omitted)
+
+Manifest line format:
+
+```text
+{"path": "relative/or/absolute/path.ext", "labels": ["label_a", "label_b"]}
+```
+
+Text manifest line format:
+
+```text
+{"text": "cat", "labels": ["cat"]}
+```
+
 ## What Is Included
 
 1. Single-fold reproduction for ESC-50 and UrbanSound8K.

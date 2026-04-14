@@ -78,55 +78,49 @@ class UrbanSound8K(td.Dataset):
 
     @staticmethod
     def _load_worker(fn: str, path_to_file: str, sample_rate: int, mono: bool = False) -> Tuple[str, int, np.ndarray]:
-        wav, sample_rate_ = sf.read(
-            path_to_file,
-            dtype='float32',
-            always_2d=True
-        )
-
-        wav = librosa.resample(wav.T, sample_rate_, sample_rate)
-
-        if wav.shape[0] == 1 and not mono:
-            wav = np.concatenate((wav, wav), axis=0)
-
+        # Always load as mono for consistent shape [1, N]
+        wav, sample_rate_ = librosa.load(path_to_file, sr=sample_rate, mono=True)
+        wav = wav[np.newaxis, :]  # shape [1, N]
+        # Truncate or pad to 4 seconds (like before)
         wav = wav[:, :sample_rate * 4]
+        # Scale to match previous behavior
         wav = transforms.scale(wav, wav.min(), wav.max(), -32768.0, 32767.0)
-
         return fn, sample_rate, wav.astype(np.float32)
 
     def load_data(self):
-        # read metadata
-        meta = pd.read_csv(
-            os.path.join(self.root, 'metadata', 'UrbanSound8K.csv'),
-            sep=',',
-            index_col='slice_file_name'
-        )
+        # Robust loader: only add files that exist, like zero_shot_eval.py
+        meta_path = os.path.join(self.root, 'metadata', 'UrbanSound8K.csv')
+        audio_root = os.path.join(self.root, 'audio')
+        if not os.path.exists(meta_path):
+            alt_path = os.path.join(self.root, 'UrbanSound8K.csv')
+            if os.path.exists(alt_path):
+                meta_path = alt_path
+                audio_root = self.root
+            else:
+                raise FileNotFoundError(f"UrbanSound8K.csv not found in 'metadata/' or root of {self.root}")
+        meta = pd.read_csv(meta_path, sep=',', index_col='slice_file_name')
 
-        for row_idx, (fn, row) in enumerate(meta.iterrows()):
-            path = os.path.join(self.root, 'audio', 'fold{}'.format(row['fold']), fn)
-            self.data[fn] = path, self.sample_rate, self.mono
+        self.data = dict()
+        for fn, row in meta.iterrows():
+            fold = int(row['fold'])
+            path = os.path.join(audio_root, f'fold{fold}', fn)
+            if os.path.exists(path):
+                self.data[fn] = path, self.sample_rate, self.mono
 
-        # by default, the official split from the metadata is used
         files_to_load = list()
-        # if the random seed is not None, the random split is used
         if self.random_split_seed is not None:
-            # given an integer random seed
             skf = skms.StratifiedKFold(n_splits=10, shuffle=True, random_state=self.random_split_seed)
-
-            # split the US8K samples into 10 folds
             for fold_idx, (train_ids, test_ids) in enumerate(skf.split(
                     np.zeros(len(meta)), meta['classID'].values.astype(int)
             ), 1):
-                # if this is the fold we want to load, add the corresponding files to the list
                 if fold_idx == self.fold:
                     ids = train_ids if self.train else test_ids
                     filenames = meta.iloc[ids].index
-                    files_to_load.extend(filenames)
+                    files_to_load.extend([fn for fn in filenames if fn in self.data])
                     break
         else:
-            # if the random seed is None, use the official split
             for fn, row in meta.iterrows():
-                if int(row['fold']) in self.folds_to_load:
+                if int(row['fold']) in self.folds_to_load and fn in self.data:
                     files_to_load.append(fn)
 
         self.data = {fn: vals for fn, vals in self.data.items() if fn in files_to_load}
