@@ -1,3 +1,11 @@
+# Acknowledgment
+
+This project is based on the original AudioCLIP implementation by Andrey Guzhov et al.:
+
+AudioCLIP GitHub Repository: https://github.com/AndreyGuzhov/AudioCLIP
+
+I used the original repository as a base and performed additional experiments/modifications for this work. All credit for the original implementation goes to the original authors.
+
 # AudioCLIP Reproduction
 
 This folder contains helper scripts to reproduce AudioCLIP results from the paper, including zero-shot evaluation, retrieval metrics, fine-tuned model evaluation, cross-dataset transfer, and qualitative analysis.
