@@ -6,6 +6,7 @@ AudioCLIP GitHub Repository: https://github.com/AndreyGuzhov/AudioCLIP
 
 I used the original repository as a base and performed additional experiments/modifications for this work. All credit for the original implementation goes to the original authors.
 
+
 # AudioCLIP Reproduction
 
 This folder contains helper scripts to reproduce AudioCLIP results from the paper, including zero-shot evaluation, retrieval metrics, fine-tuned model evaluation, cross-dataset transfer, and qualitative analysis.
@@ -22,8 +23,15 @@ python -m pip install -r AudioCLIP/reproduce/requirements-kaggle.txt
    - **ESC-50**: root containing `audio/` and `meta/esc50.csv`
    - **UrbanSound8K**: root containing `audio/` and `metadata/UrbanSound8K.csv`
    - **Flickr8k**: root containing images and caption annotations
+  
+   ## Download Datasets
+   - **ESC-50**: `wget -q https://github.com/karoldvl/ESC-50/archive/master.zip -O ESC-50.zip`
+   - **UrbanSound8K**: `kaggle datasets download -d chrisfilo/urbansound8k`
+   - **Flickr8k**: `kaggle datasets download -d shadabhussain/flickr8k`
+  
+   
 
-3. Model checkpoints:
+4. Model checkpoints:
    - `AudioCLIP-Full-Training.pt` (pre-trained, full)
    - `AudioCLIP-Partial-Training.pt` (pre-trained, partial)
    - Fine-tuned checkpoints: `Esc-50_Full.pt`, `Esc-50_Partial.pt`, `Usk8-Full.pt`, `Usk8-Partial.pt`, `Flickr_Full.pt`, `Flickr_Partial.pt`, `Esc-50+Usk8_Full.pt`, `Esc_Usk_Flickr.pt`
