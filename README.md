@@ -13,6 +13,7 @@ This folder contains helper scripts to reproduce AudioCLIP results from the pape
 
 ## Prerequisites
 
+
 1a. Install dependencies (Kaggle environment):
 
 ```bash
@@ -20,6 +21,15 @@ This folder contains helper scripts to reproduce AudioCLIP results from the pape
 ```
 
 1b. Install dependencies (Local)
+
+Create Conda enviroment and activate it
+
+```bash
+conda create -n Aclip python=3.9
+
+conda activate Aclip
+```
+install requirements
 
 ```bash
 pip install -r requirements.txt
