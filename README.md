@@ -44,11 +44,16 @@ pip install -r requirements.txt
    - **ESC-50**: `wget -q https://github.com/karoldvl/ESC-50/archive/master.zip -O ESC-50.zip`
    - **UrbanSound8K**: `kaggle datasets download -d chrisfilo/urbansound8k`
    - **Flickr8k**: `kaggle datasets download -d shadabhussain/flickr8k`
-  
+
+   ## Unzipping ESC-50
+   ```bash
+   unzip ESC-50.zip
+   ```
+   
    ## Unzipping Flickr8k
    ```bash
    mkdir -p Flickr8k
-   unzip Flickr8k.zip -d Flickr8k
+   unzip flickr8k.zip -d Flickr8k
    ```
 
 4. Model checkpoints:
