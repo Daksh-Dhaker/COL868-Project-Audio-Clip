@@ -54,6 +54,12 @@ pip install -r requirements.txt
 
 ---
 
+Change current directory
+
+```bash
+cd reproduce/
+```
+
 ## 1. Zero-Shot Evaluation (`zero_shot_eval.py`)
 
 Computes R@1, R@5, R@10, and mAP for a given query→result modality pair.
