@@ -45,7 +45,11 @@ pip install -r requirements.txt
    - **UrbanSound8K**: `kaggle datasets download -d chrisfilo/urbansound8k`
    - **Flickr8k**: `kaggle datasets download -d shadabhussain/flickr8k`
   
-   
+   ## Unzipping Flickr8k
+   ```bash
+   mkdir -p Flickr8k
+   unzip Flickr8k.zip -d Flickr8k
+   ```
 
 4. Model checkpoints:
    - `AudioCLIP-Full-Training.pt` (pre-trained, full)
