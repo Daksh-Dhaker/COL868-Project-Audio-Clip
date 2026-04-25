@@ -13,10 +13,16 @@ This folder contains helper scripts to reproduce AudioCLIP results from the pape
 
 ## Prerequisites
 
-1. Install dependencies (Kaggle environment):
+1a. Install dependencies (Kaggle environment):
 
 ```bash
-python -m pip install -r AudioCLIP/reproduce/requirements-kaggle.txt
+!python -m pip install -r AudioCLIP/reproduce/requirements-kaggle.txt
+```
+
+1b. Install dependencies (Local)
+
+```bash
+pip install -r requirements.txt
 ```
 
 2. Datasets:
