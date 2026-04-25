@@ -49,6 +49,12 @@ pip install -r requirements.txt
    ```bash
    unzip ESC-50.zip
    ```
+
+   ## Unzipping UrbanSound8k
+   ```bash
+   mkdir -p US8k
+   unzip urbansound8k.zip -d US8k
+   ```
    
    ## Unzipping Flickr8k
    ```bash
