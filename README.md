@@ -61,7 +61,7 @@ pip install -r requirements.txt
    mkdir -p Flickr8k
    unzip flickr8k.zip -d Flickr8k
    ```
-3. Model Weights (Google Drive)
+3. **Model Weights (Google Drive)**
    All the model weights are available in this drive link - https://drive.google.com/drive/folders/17dQUZ_mE49zjZZrI8LRQaphbv2DJoiOo?usp=share_link
 
    The individual models can also be installed using gdown if needed:
@@ -70,7 +70,7 @@ pip install -r requirements.txt
 pip install gdown
 ```
 
-### AudioCLIP
+
 
 **AudioCLIP (Full Training)**
 
@@ -84,9 +84,6 @@ gdown https://drive.google.com/uc?id=1Lmq5MGeZG-H64PI-Gy9fOe6cYQNS9dhU
 gdown https://drive.google.com/uc?id=119vdeAaHcO-SgiQ6iZujpuwJDfQxuMze
 ```
 
----
-
-### ESC + USK + Flickr
 
 **ESC + USK + Flickr (Combined Training)**
 
@@ -94,9 +91,7 @@ gdown https://drive.google.com/uc?id=119vdeAaHcO-SgiQ6iZujpuwJDfQxuMze
 gdown https://drive.google.com/uc?id=1v8omhbr7IKKdSpGv89-ArRnzOuRWxpkB
 ```
 
----
 
-### ESC-50
 
 **ESC-50 (Fully Trained)**
 
@@ -116,9 +111,6 @@ gdown https://drive.google.com/uc?id=1aTaK8_DDJMtVrVqDOOFdMUpc7VG_EqwQ
 gdown https://drive.google.com/uc?id=1d-W5_qvu1l8yaeKlES_LpEVdbBeG1q1m
 ```
 
----
-
-### Flickr
 
 **Flickr (Fully Trained)**
 
@@ -132,9 +124,6 @@ gdown https://drive.google.com/uc?id=1wzP5MdxMV_8qLL9FdmWp2gYy6TzXJQlk
 gdown https://drive.google.com/uc?id=1vPLN2XvpqGc-kevHjEYT-MrQtBY1T-S3
 ```
 
----
-
-### UrbanSound8K
 
 **UrbanSound8K (Fully Trained)**
 
