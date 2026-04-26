@@ -45,6 +45,10 @@ pip install -r requirements.txt
    - **UrbanSound8K**: `kaggle datasets download -d chrisfilo/urbansound8k`
    - **Flickr8k**: `kaggle datasets download -d shadabhussain/flickr8k`
 
+   ## Datasets can also be downloaded using below links
+   - **UrbanSound8K**: https://www.kaggle.com/datasets/chrisfilo/urbansound8k
+   - **Flickr8k**: https://www.kaggle.com/datasets/shadabhussain/flickr8k
+   
    ## Unzipping ESC-50
    ```bash
    unzip ESC-50.zip
@@ -61,7 +65,7 @@ pip install -r requirements.txt
    mkdir -p Flickr8k
    unzip flickr8k.zip -d Flickr8k
    ```
-3. **Model Weights (Google Drive)**
+2. **Model Weights (Google Drive)**
    All the model weights are available in this drive link - https://drive.google.com/drive/folders/17dQUZ_mE49zjZZrI8LRQaphbv2DJoiOo?usp=share_link
 
    The individual models can also be installed using gdown if needed:
